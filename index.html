@@ -235,7 +235,6 @@
   <footer>© 2025 BiasBuster</footer>
 
 <script>
- <script>
   const form = document.getElementById('form');
   const success = document.getElementById('success');
 
@@ -261,6 +260,7 @@
       setTimeout(() => success.style.display = 'none', 4000);
     } catch (err) {
       alert("Something went wrong. Try again!");
+      console.error(err);
     }
   });
 </script>
