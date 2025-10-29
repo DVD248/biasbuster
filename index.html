@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BiasBuster — Join the Waitlist</title>
+  <title>BiasBuster – Waitlist</title>
   <style>
     :root {
       --bg: #0a0a0a;
@@ -11,7 +11,8 @@
       --muted: #7e7e7e;
       --border: #1c1c1c;
       --radius: 12px;
-      --maxw: 850px;
+      --maxw: 1120px;
+      --ease-out: cubic-bezier(.22,.61,.36,1);
     }
     body {
       margin: 0;
@@ -39,7 +40,7 @@
     }
     .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
     .top-link { color: var(--muted); font-size: 14px; position: relative; text-decoration: none; }
-    .top-link:hover { color: var(--fg); }
+    .top-link:hover { color: var(--fg); transform: translateY(-1px); }
     .top-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
     .top-link:hover::after { transform: scaleX(1); }
     .brand {
@@ -50,16 +51,15 @@
     }
 
     /* Layout */
-    main { width: 100%; max-width: var(--maxw); padding: 80px 20px 0; }
+    main { width: min(100%, var(--maxw)); margin: 0 auto; padding: 80px 20px 0; }
     section { padding: 50px 0; }
     h1, h2, h3 { margin: 0 0 14px; letter-spacing: -0.02em; }
     h1 {
-      font-size: clamp(34px, 7vw, 62px);
-      margin-bottom: 14px;
-      line-height: 1.05;
-      position: relative;
-      z-index: 2;
-      font-weight: 500; /* Medium weight as requested */
+      font-size: clamp(50px, 6vw, 96px);
+      margin-bottom: 18px;
+      line-height: 1.03;
+      font-weight: 500;
+      letter-spacing: -0.015em;
     }
     h2 { font-size: clamp(22px, 4vw, 32px); }
     p { margin: 0 0 18px; }
@@ -100,7 +100,21 @@
       padding: 22px 20px;
       border-radius: var(--radius);
     }
-    .input, .btn { width: 100%; font: inherit; }
+    .input, .btn {
+      padding: 12px 16px;
+      border: 1px solid var(--fg);
+      border-radius: var(--radius);
+      background: var(--fg);
+      color: var(--bg);
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: background .18s var(--ease-out), color .18s var(--ease-out), transform .18s var(--ease-out), box-shadow .18s var(--ease-out);
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+    .btn:active { transform: translateY(0); box-shadow: 0 2px 10px rgba(0,0,0,.18); }
+    .btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
     .input {
       box-sizing: border-box;
       width: 100%;
@@ -125,7 +139,7 @@
     }
 
     /* Features */
-    .features {
+    .features { position: relative;
       display: grid;
       gap: 0;
       grid-template-columns: 1fr;
@@ -190,15 +204,41 @@
 
   
     /* ===== Premium, subtle animations ===== */
-    .reveal { opacity: 0; transform: translateY(8px); transition: opacity .22s ease-out, transform .22s ease-out; will-change: opacity, transform; }
-    .reveal.show { opacity: 1; transform: translateY(0); }
-    .delay-1 { transition-delay: .06s; }
-    .delay-2 { transition-delay: .12s; }
-    .delay-3 { transition-delay: .18s; }
-    .feature.reveal { transition-duration: .28s; }
-    @media (prefers-reduced-motion: reduce) { .reveal { transition:none; transform:none; opacity:1; } }
+    .reveal { opacity: 0; transform: translateY(8px); will-change: opacity, transform; }
+    .reveal.show { animation: fadeUp .26s var(--ease-out) both; }
+    .delay-1 { animation-delay: .06s; }
+    .delay-2 { animation-delay: .12s; }
+    .delay-3 { animation-delay: .18s; }
+    .feature.reveal.show { animation-duration: .32s; }
 
+    /* Hero headline gets subtle tracking animation too */
+    section.center h1.reveal.show { animation: fadeUp .28s var(--ease-out) both, trackIn .6s ease-out both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; animation: none !important; }
+    } }
+
+  
+    /* anchor offset for sticky header */
+    :target { scroll-margin-top: 84px; }
+
+    /* widescreen polish */
+    @media (min-width: 1200px) {
+      .tagline { font-size: 20px; }
+      .card { max-width: 420px; }
+      .top-link { font-size: 15px; }
+    }
+    @media (min-width: 1600px) {
+      :root { --maxw: 1240px; }
+      .tagline { font-size: 21px; }
+      .nav-inner { max-width: calc(var(--maxw) + 120px); }
+    }
+
+  
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes trackIn { from { letter-spacing: .6px; } to { letter-spacing: 0; } }
   </style>
+  <link rel="icon" type="image/png" href="square.png" />
 </head>
 <body>
   <header>
