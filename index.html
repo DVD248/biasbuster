@@ -6,6 +6,34 @@
   <title>BiasBuster - Waitlist</title>
   <link rel="icon" type="image/png" href="Square.png">
   <style>
+/* Prevent mobile auto-zoom and fix width overflow */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+
+/* Header spans full width but stays aligned */
+.nav-inner {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 clamp(16px, 4vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Form fields: ensure at least 16px font on iOS */
+.input,
+.btn {
+  font-size: 16px;
+}
+
+/* Main content remains centered on desktops but responsive */
+main {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 80px clamp(16px, 4vw, 56px) 0;
+}
     :root {
       --bg: #0a0a0a;
       --fg: #fff;
@@ -205,7 +233,7 @@
     @media (min-width: 1200px) {
       .tagline { font-size: 20px; }
       .card { max-width: 420px; }
-      .top-link { font-size: 15px; }
+      .top-link { font-size: 16px; }
     }
     @media (min-width: 1600px) {
       :root { --maxw: 1240px; }
