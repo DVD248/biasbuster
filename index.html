@@ -215,7 +215,41 @@ main {
       font-size: 14px;
     }
 
-  
+   /* About Us */
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.member {
+  text-align: center;
+  max-width: 280px;
+}
+.member img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;      /* zooms into square images neatly */
+  object-position: center;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  margin-bottom: 14px;
+}
+.member h3 {
+  margin-bottom: 4px;
+  font-size: 18px;
+}
+.member p {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0;
+}
+@media (min-width: 700px) {
+  .team { flex-direction: row; justify-content: center; }
+}
+
     /* ===== Premium, subtle animations ===== */
     .reveal { opacity: 0; transform: translateY(8px); transition: opacity .22s ease-out, transform .22s ease-out; will-change: opacity, transform; }
     .reveal.show { opacity: 1; transform: translateY(0); }
@@ -283,6 +317,22 @@ main {
         </div>
       </div>
     </section>
+        <!-- About Us Section -->
+    <section id="about">
+      <h2 class="center">About Us</h2>
+      <div class="team">
+        <div class="member reveal">
+          <img src="david.jpg" alt="David, Co-founder of BiasBuster">
+          <h3>David</h3>
+          <p>Co-founder & Product Lead</p>
+        </div>
+        <div class="member reveal delay-1">
+          <img src="alex.jpg" alt="Alex, Co-founder of BiasBuster">
+          <h3>Alex</h3>
+          <p>Co-founder & AI Research Lead</p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>© 2025 BiasBuster</footer>
@@ -296,21 +346,29 @@ main {
     success.style.display = 'block';
     setTimeout(() => success.style.display = 'none', 3500);
   });
+
   // Premium reveal: show hero on load
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('section.center .reveal').forEach(el => el.classList.add('show'));
   });
-  // Reveal features on scroll
+
+  // Reveal features + team on scroll
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('show'); obs.unobserve(entry.target); }
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
-    document.querySelectorAll('.feature.reveal').forEach(el => io.observe(el));
+
+    // 👇 this line ensures both features *and* team members fade in
+    document.querySelectorAll('.feature.reveal, .member.reveal').forEach(el => io.observe(el));
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
   }
 </script>
+
 </body>
 </html>
