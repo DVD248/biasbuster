@@ -324,12 +324,12 @@ main {
         <div class="member reveal">
           <img src="david.jpg" alt="David, Co-founder of BiasBuster">
           <h3>David</h3>
-          <p>Co-founder & Product Lead</p>
+          <p>Co-founder</p>
         </div>
         <div class="member reveal delay-1">
           <img src="alex.jpg" alt="Alex, Co-founder of BiasBuster">
           <h3>Alex</h3>
-          <p>Co-founder & AI Research Lead</p>
+          <p>Co-founder</p>
         </div>
       </div>
     </section>
@@ -340,35 +340,67 @@ main {
 <script>
   const form = document.getElementById('form');
   const success = document.getElementById('success');
-  form.addEventListener('submit', e => {
+
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    form.reset();
-    success.style.display = 'block';
-    setTimeout(() => success.style.display = 'none', 3500);
+
+    const email = form.email.value.trim();
+    const name  = form.name.value.trim();
+
+    if (!email) {
+      alert("Please enter a valid email.");
+      return;
+    }
+
+    // Your Google Form endpoint and field IDs
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScGgqnMm5smgqcU4ECcE5Sgfm6j5C1fu5VtRJxX0LLzs2HXSg/formResponse";
+    const data = new URLSearchParams();
+    data.append("entry.351853819", name);
+    data.append("entry.1161712952", email);
+
+    try {
+      await fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: data
+      });
+
+      form.reset();
+      success.textContent = "You're on the list ✅";
+      success.style.color = "#4ade80";
+      success.style.display = "block";
+    } catch (err) {
+      success.textContent = "Connection error ⚠️";
+      success.style.color = "#facc15";
+      success.style.display = "block";
+    }
+
+    setTimeout(() => success.style.display = "none", 3500);
   });
 
   // Premium reveal: show hero on load
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('section.center .reveal').forEach(el => el.classList.add('show'));
+  window.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("section.center .reveal").forEach(el => el.classList.add("show"));
   });
 
   // Reveal features + team on scroll
-  if ('IntersectionObserver' in window) {
+  if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('show');
+          entry.target.classList.add("show");
           obs.unobserve(entry.target);
         }
       });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.15 });
 
-    // 👇 this line ensures both features *and* team members fade in
-    document.querySelectorAll('.feature.reveal, .member.reveal').forEach(el => io.observe(el));
+    // 👇 ensures both features *and* team members fade in
+    document.querySelectorAll(".feature.reveal, .member.reveal").forEach(el => io.observe(el));
   } else {
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
+    document.querySelectorAll(".reveal").forEach(el => el.classList.add("show"));
   }
 </script>
+
 
 </body>
 </html>
